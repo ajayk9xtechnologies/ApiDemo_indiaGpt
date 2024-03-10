@@ -12,8 +12,7 @@
             <ul class="convoId">
                 <li :class="{ 'active': convo.conversation_id === $store.state.currentConvoId }"
                     class="fs-5 text-black text-center" v-for="(convo, index) in $store.state.allConvo" :key="convo.conversation_id"
-                    @click="getConvoData(convo.conversation_id)"><span>{{ convo.conversation_id }}</span> {{ convo.title
-                    }}
+                    @click="getConvoData(convo.conversation_id)"><span>{{ convo.conversation_id }}</span> {{ truncatedTitle(convo.title) }}
                     <button @click.stop="deleteConversation($event, convo.conversation_id)">delete</button>
                 </li>
             </ul>
@@ -41,6 +40,22 @@ export default {
     activated() {
         this.getAllconversations();
     },
+    computed: {
+  truncatedTitle() {
+    return (title) => {
+      // Define the maximum number of characters to display
+      const maxLength = 25;
+      // Check if the title length is greater than the maximum length
+      if (title.length > maxLength) {
+        // If so, truncate the title and add ellipsis
+        return title.substring(0, maxLength) + "...";
+      } else {
+        // If not, return the full title
+        return title;
+      }
+    };
+  }
+},
     methods: {
         async getAllconversations() {
             try {

@@ -9,9 +9,9 @@ export default createStore({
     selectedToken: null,
     authentiation: false,
     userData: null,
-    currentConversation:[],
-    currentConvoId:null,
-    allConvo:[]
+    currentConversation: [],
+    currentConvoId: null,
+    allConvo: []
   },
   mutations: {
     SET_SELECTEDTOKEN(state, data) {
@@ -23,8 +23,8 @@ export default createStore({
     SET_CURRENTCONVO(state, data) {
       state.currentConversation = data;
     },
-    UPDATE_CONVO(state, data){
-      state.currentConversation = [...state.currentConversation,data];
+    UPDATE_CONVO(state, data) {
+      state.currentConversation = [...state.currentConversation, data];
     },
     SET_FETCHUSERDATA(state, data) {
       state.userData = data;
@@ -32,13 +32,13 @@ export default createStore({
     SET_CURRENTCONVOID(state, data) {
       state.currentConvoId = data;
     },
-    SET_allConvo(state,data){
+    SET_allConvo(state, data) {
       state.allConvo = data;
-    },UPDATE_allConvo(state,data){
-      state.allConvo =[data, ...state.allConvo];
+    }, UPDATE_allConvo(state, data) {
+      state.allConvo = [data, ...state.allConvo];
     },
-    UPDATE_USERAVATAR(state,data){
-      state.userData ={...state.userData,avatar:data};
+    UPDATE_USERAVATAR(state, data) {
+      state.userData = { ...state.userData, avatar: data };
     }
   },
   actions: {
@@ -63,7 +63,7 @@ export default createStore({
         return "fetchData successfull"
       } catch (error) {
         console.error('Login error:', error);
-        return "fetchdata Error"+error;
+        return "fetchdata Error" + error;
       }
     }
   },

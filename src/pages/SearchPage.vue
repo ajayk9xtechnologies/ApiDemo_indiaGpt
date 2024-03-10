@@ -2,14 +2,18 @@
     <div class="container-fluid">
         <div class="row" style="min-height: 100vh">
             <div class="col-md-3 px-4 leftpanel">
-                <ConvoPanel :createConvo="createConversation"/>
+                <ConvoPanel :createConvo="createConversation" />
             </div>
             <div class="col-md-9">
-                <div class="chat-container d-flex h-100 flex-column justify-content-between">
+                <div v-if="$store.state.currentConvoId == null">
+                    <button @click="createConversation">Start Conversation</button>
+                </div>
+                <div v-else class="chat-container d-flex h-100 flex-column justify-content-between">
                     <div style="height: 100%;" class="chat-messages p-3">
                         <p>Text message goes here</p>
                         <div class="answer">
-                            <div v-if="$store.state.currentConversation.length" v-for="(Convo, index) in $store.state.currentConversation"
+                            <div v-if="$store.state.currentConversation.length"
+                                v-for="(Convo, index) in $store.state.currentConversation"
                                 class="card p-3 text-secondary">
                                 <div class=" mb-0">
                                     <h2 class="text-primary">{{ Convo.question }}</h2>
@@ -19,14 +23,10 @@
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
-                    <div v-if="$store.state.currentConvoId==null">
-                            <button @click="createConversation">hello</button>
-                    </div>
-                    <div v-else class="p-4 border-0 bg-transparent">
+                    <div class="p-4 border-0 bg-transparent">
                         <li class="list-none" v-for="(suggestion, index) in suggestionList" :key="index">
-                           {{ suggestion }}
+                            {{ suggestion }}
                         </li>
                         <form @submit.prevent="searchQuestion" class="searchBox d-flex gap-2 py-3" id="searchBox">
                             <div class="d-flex w-100 bg-transparent rounded">
@@ -36,15 +36,13 @@
                                 <datalist id="suggestions"></datalist>
                             </div>
                             <div class="d-flex flex-row justify-content-center gap-2">
-                                <button type="button" class="searchButton btn btn-outline-default waves"
-                                    title="Start Listening">
+                                <button type="button" class="searchButton btn btn-outline-default waves" title="Start Listening"> 
                                     <i class="bi bi-mic-fill"></i>
                                 </button>
                                 <input class="searchButton btn btn-outline-default" type="submit" aria-label="Search">
                             </div>
-                            <ul class="list-unstyled m-0 p-0 position-absolute top-0 start-0 end-0"
-                                style="display: none;">
-                                
+                            <ul class="list-unstyled m-0 p-0 position-absolute top-0 start-0 end-0" style="display: none;">
+
                             </ul>
                         </form>
                     </div>
@@ -115,17 +113,17 @@ export default {
                     question: this.question,
                     response: response.data
                 })
-                if (this.$store.state.currentConversation.length==1) {
+                if (this.$store.state.currentConversation.length == 1) {
                     this.$store.commit('UPDATE_allConvo', {
                         conversation_id: this.$store.state.currentConvoId,
                         title: this.question,
-                })
-                    
+                    })
+
                 }
                 console.log(this.$store.state.currentConversation);
                 // this.loader = false;
                 this.suggestionList = ''
-                this.question=''
+                this.question = ''
             } catch (error) {
                 if (error.response && error.response.status === 422) {
                     console.error("Validation Error:", error.response.data);
@@ -155,8 +153,8 @@ export default {
                     }
                 );
                 console.log("create conversation:", response.data);
-                this.$store.commit('SET_CURRENTCONVOID',response.data.conversation_id)
-                this.$store.commit('SET_CURRENTCONVO',[])
+                this.$store.commit('SET_CURRENTCONVOID', response.data.conversation_id)
+                this.$store.commit('SET_CURRENTCONVO', [])
             } catch (error) {
                 if (error.response && error.response.status === 422) {
                     console.error("Validation Error:", error.response.data);
